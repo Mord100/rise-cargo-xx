@@ -254,8 +254,8 @@ export default function RiseCargoLogistics() {
                 </div>
                 <div className="mt-8">
                   <h4 className="text-xl font-semibold mb-2 text-gray-900">Business Hours</h4>
-                  <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
-                  <p>Saturday: 10:00 AM - 2:00 PM</p>
+                  <p>Monday - Friday: 7:30 AM - 4:30 PM</p>
+                  <p>Saturday: 8:00 AM - 12:00 PM</p>
                   <p>Sunday: Closed</p>
                 </div>
                 <div className="mt-8">
