@@ -6,13 +6,33 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { FaTruck, FaBox, FaWarehouse, FaGlobe, FaFileAlt, FaPhone, FaMailBulk, FaMapMarkerAlt, FaFacebook, FaTwitter, FaLinkedin, FaInstagram } from "react-icons/fa"
+import { FaTruck, FaBox, FaWarehouse, FaGlobe, FaFileAlt, FaPhone, FaMailBulk, FaMapMarkerAlt, FaFacebook, FaTwitter, FaLinkedin, FaInstagram, FaRobot, FaTimes } from "react-icons/fa"
 import { MdMenu } from "react-icons/md"
 
 import Logo from "../images/rise-cargo.png"
 
 export default function RiseCargoLogistics() {
   const [isOpen, setIsOpen] = useState(false)
+  const [isAIOpen, setIsAIOpen] = useState(false)
+  const [message, setMessage] = useState("")
+  const [chatHistory, setChatHistory] = useState<{type: 'user' | 'ai', content: string}[]>([])
+
+  const handleSendMessage = () => {
+    if (!message.trim()) return
+
+    // Add user message to chat
+    setChatHistory(prev => [...prev, {type: 'user', content: message}])
+    
+    // Simulate AI response - replace with actual AI integration
+    setTimeout(() => {
+      setChatHistory(prev => [...prev, {
+        type: 'ai', 
+        content: "Thanks for your message! I'm a demo AI assistant. In the future, I'll be able to help you with questions about Rise Cargo Logistics."
+      }])
+    }, 1000)
+
+    setMessage("")
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
@@ -48,6 +68,59 @@ export default function RiseCargoLogistics() {
       </header>
 
       <main className="flex-grow">
+      {/* AI Assistant Floating Button */}
+      <div className="fixed bottom-6 right-6 z-50">
+        {isAIOpen ? (
+          <div className="bg-white rounded-lg shadow-xl w-80 h-96 flex flex-col">
+            <div className="p-4 bg-[#e91a34] text-white rounded-t-lg flex justify-between items-center">
+              <div className="flex items-center">
+                <FaRobot className="mr-2" />
+                <span>AI Assistant</span>
+              </div>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={() => setIsAIOpen(false)}
+                className="text-white hover:text-gray-200"
+              >
+                <FaTimes />
+              </Button>
+            </div>
+            <div className="flex-1 p-4 overflow-y-auto">
+              {chatHistory.map((msg, idx) => (
+                <div key={idx} className={`mb-4 ${msg.type === 'user' ? 'text-right' : 'text-left'}`}>
+                  <div className={`inline-block p-2 rounded-lg ${
+                    msg.type === 'user' ? 'bg-[#e91a34] text-white' : 'bg-gray-100'
+                  }`}>
+                    {msg.content}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="p-4 border-t">
+              <div className="flex gap-2">
+                <Input 
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="Type your message..."
+                  onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                />
+                <Button onClick={handleSendMessage} className="bg-[#e91a34] text-white">
+                  Send
+                </Button>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <Button 
+            onClick={() => setIsAIOpen(true)}
+            className="bg-[#e91a34] text-white rounded-full w-14 h-14 flex items-center justify-center hover:bg-[#a51d34]"
+          >
+            <FaRobot className="h-6 w-6" />
+          </Button>
+        )}
+      </div>
+
       <section className="relative overflow-hidden min-h-screen flex items-center">
           <div className="absolute inset-0">
             <img 
